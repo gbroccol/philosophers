@@ -13,18 +13,26 @@
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
 
-#include <>
+#include <stdio.h> // delete
+#include <unistd.h>
+
+typedef struct	s_com
+{
+	int			phil_nmb;
+    int			time_die;
+	int			time_eat;
+	int			time_sleep;
+	int			meal_nmb;
+}				t_com;
 
 
 
 
-// typedef struct	s_pars
-// {
-// 	int			pos;
-
-// }				t_pars;
-
-
+/*
+** libft
+*/
+void			*ft_memset(void *s, int c, size_t n);
+int				ft_atoi(const char *str);
 
 
 
