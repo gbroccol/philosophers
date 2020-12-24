@@ -15,17 +15,49 @@
 
 #include <stdio.h> // delete
 #include <unistd.h>
+#include <pthread.h>
+#include <string.h>
+#include <stdlib.h>
 
-typedef struct	s_com
+// memset -  fill a byte string with a byte value
+// usleep - приостанавливает работу потока
+// gettimeofday - определяет время						int gettimeofday(struct timeval *tv, struct timezone *tz);
+// pthread_create - Новый поток создаётся				int pthread_create(*ptherad_t, NULL, void* (*start_routine)(void*), void *arg);
+// pthread_detach - обозначаем поток отсоединившимся	int pthread_detach(pthread_t thread);
+					// очистит тебе все..
+					//  При удачном завершении pthread_detach() возвращает код 0, ненулевое значение сигнализирует об ошибке.
+// pthread_join - ожидания завершения потока			int pthread_join(thread_t tid, void **status);
+// pthread_mutex_init									int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);		
+// pthread_mutex_destroy								int pthread_mutex_destroy(pthread_mutex_t *mutex);
+// pthread_mutex_lock									int pthread_mutex_lock(pthread_mutex_t *mutex);
+// pthread_mutex_unlock									int pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+typedef struct			s_com
 {
-	int			phil_nmb;
-    int			time_die;
-	int			time_eat;
-	int			time_sleep;
-	int			meal_nmb;
-}				t_com;
+	int					phil_nmb;
+    int					time_die;
+	int					time_eat;
+	int					time_sleep;
+	int					meal_nmb;
+}						t_com;
 
+typedef struct			s_phil
+{
+	int					nmb;
+	int					right;
+	int					left;
+}						t_phil;
 
+typedef struct			s_table
+{
+    pthread_mutex_t		*forks;		//???
+}						t_table;
+
+typedef struct			s_all
+{
+    t_phil				*phil;
+    t_table				*table;
+}						t_all;
 
 
 /*
@@ -33,8 +65,5 @@ typedef struct	s_com
 */
 void			*ft_memset(void *s, int c, size_t n);
 int				ft_atoi(const char *str);
-
-
-
 
 #endif
