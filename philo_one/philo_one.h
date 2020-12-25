@@ -46,24 +46,24 @@ typedef struct			s_phil
 	int					nmb;
 	int					right;
 	int					left;
+	pthread_t			*thread;
 }						t_phil;
 
 typedef struct			s_table
 {
-    pthread_mutex_t		*forks;		//???
+    pthread_mutex_t		*mutex;		//???
 }						t_table;
 
 typedef struct			s_all
 {
+	t_com				*com;
     t_phil				*phil;
     t_table				*table;
 }						t_all;
 
-
 /*
 ** libft
 */
-void			*ft_memset(void *s, int c, size_t n);
 int				ft_atoi(const char *str);
 
 #endif

@@ -65,11 +65,17 @@ int			pars_args(t_com *com, char **argv)
 	return (0);
 }
 
-void init_phil(t_phil *phil, int phil_nmb)
+t_phil *init_phil(int phil_nmb)
 {
-	int i;
+	int				i;
+	t_phil			*phil;
+	pthread_t		*thread;
 
 	i = 0;
+	if ((phil = (t_phil *)malloc(sizeof(t_phil) * phil_nmb)) == NULL)
+		return (NULL);
+	if ((thread = (pthread_t *)malloc(sizeof(pthread_t) * phil_nmb)) == NULL)
+		return (NULL);
 	while (i < phil_nmb)
 	{
 		phil[i].nmb = i + 1;
@@ -81,55 +87,103 @@ void init_phil(t_phil *phil, int phil_nmb)
 		// printf("Phil %d, right %d, left %d\n", phil[i].nmb, phil[i].right, phil[i].left);
 		i++;
 	}
+	return (phil);
 }
  
-void init_table(t_table *table, int phil_nmb)
+t_table *init_table(int phil_nmb)
 {
-    int i;
+	int i;
+	t_table *table;
+	pthread_mutex_t		*mutex;
 
+	table = NULL;
+	if ((table = (t_table *)malloc(sizeof(t_table))) == NULL)
+		return (NULL);
+	if ((mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * phil_nmb)) == NULL)
+		return (NULL);
 	i = 0;
 	while(i < phil_nmb)
 	{
-		pthread_mutex_init(&table->forks[i], NULL);
+		pthread_mutex_init(&mutex[i], NULL);
 		i++;
 	}
+	table->mutex = mutex;
+	return (table);
 }
 
-// void print_phil(t_all *all)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < 5)
-// 	{
-// 		printf("______________\n");
-// 		printf("Phil %d, right %d, left %d\n", all->phil[i].nmb, all->phil[i].right, all->phil[i].left);
-// 		i++;
-// 	}
-// }
-
-int			main(int argc, char **argv)
+t_all		*init_all(t_com *com, t_phil *phil, t_table *table)
 {
-	t_com 	com;
-	t_all	all;
+	t_all	*all;
+	int		i;
+
+	if ((all = (t_all *)malloc(sizeof(t_all) * com->phil_nmb)) == NULL)
+		return (NULL);
+	i = 0;
+	while (i < com->phil_nmb)
+	{
+		all[i].com = com;
+		all[i].table = table;
+		all[i].phil = &phil[i];
+		i++;
+	}
+	return (all);
+}
+
+void	*eat(void *args)
+{
+    // philosopher_args_t *arg = (philosopher_args_t*) args;
+
+	t_all *all = (t_all *)args;
+
+    // const philosopher_t *philosopher = arg->philosopher;
+    // const table_t *table = arg->table;
+ 
+    printf("%d started dinner\n", all->phil->nmb);
+ 
+    // pthread_mutex_lock(&table->forks[philosopher->left_fork]);
+    // pthread_mutex_lock(&table->forks[philosopher->right_fork]);
+ 
+    // printf("%s is eating\n", philosopher->name);
+ 
+    // pthread_mutex_unlock(&table->forks[philosopher->right_fork]);
+    // pthread_mutex_unlock(&table->forks[philosopher->left_fork]);
+ 
+    // printf("%s finished dinner\n", philosopher->name);
+	return (NULL);
+}
+
+int				main(int argc, char **argv)
+{
+	t_com 		com;
+	t_phil		*phil;
+	t_table		*table;
+	t_all		*all;
+	int		i;
 
 	memset(&com, 0, sizeof(t_com));
-	memset(&all, 0, sizeof(t_all));
-	// memset(all.phil, 0, sizeof(t_phil));
-	// memset(all.table, 0, sizeof(t_table));
+	// memset(&all, 0, sizeof(t_all));
 	if (argc < 5 || argc > 6 || pars_args(&com, argv))
 		error();
 	else
 	{
-		// printf("_______%d_______\n", com.phil_nmb);
-		if ((all.phil = (t_phil *)malloc(sizeof(t_phil) * com.phil_nmb)) == NULL)
-			return (1);
-		init_phil(all.phil, com.phil_nmb);
-		// init_table(all.table, com.phil_nmb);
-
-		// print_phil(&all);
+		phil = init_phil(com.phil_nmb);
+		table = init_table(com.phil_nmb);
+		all = init_all(&com, phil, table); // error
+		i = 0;
+		while (i < com.phil_nmb)
+		{
+			pthread_create(all[i].phil->thread, NULL, eat, (void *)(&all[i]));
+			i++;
+		}
+		i = 0;
+		while (i < com.phil_nmb)
+		{
+			pthread_join(all[i].phil->thread[i], NULL);
+			i++;
+		}
+		// wait();
+		// usleep(10000);
 	}
-	
 // 	timestamp_in_ms X has taken a fork
 // ◦ timestamp_in_ms X is eating
 // ◦ timestamp_in_ms X is sleeping
