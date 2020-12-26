@@ -44,9 +44,10 @@ typedef struct			s_com
 typedef struct			s_phil
 {
 	int					nmb;
+	char				*name;
 	int					right;
 	int					left;
-	pthread_t			*thread;
+	pthread_t			thread;
 }						t_phil;
 
 typedef struct			s_table
@@ -57,13 +58,14 @@ typedef struct			s_table
 typedef struct			s_all
 {
 	t_com				*com;
+	t_table				*table;
     t_phil				*phil;
-    t_table				*table;
 }						t_all;
 
 /*
 ** libft
 */
 int				ft_atoi(const char *str);
+char			*ft_itoa(int n);
 
 #endif

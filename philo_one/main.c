@@ -69,16 +69,14 @@ t_phil *init_phil(int phil_nmb)
 {
 	int				i;
 	t_phil			*phil;
-	pthread_t		*thread;
 
 	i = 0;
 	if ((phil = (t_phil *)malloc(sizeof(t_phil) * phil_nmb)) == NULL)
 		return (NULL);
-	if ((thread = (pthread_t *)malloc(sizeof(pthread_t) * phil_nmb)) == NULL)
-		return (NULL);
 	while (i < phil_nmb)
 	{
 		phil[i].nmb = i + 1;
+		phil[i].name = ft_itoa(phil[i].nmb);
 		phil[i].right = i;
 		if ((phil_nmb - 1) == i)
 			phil[i].left = 0;
@@ -111,13 +109,13 @@ t_table *init_table(int phil_nmb)
 	return (table);
 }
 
-t_all		*init_all(t_com *com, t_phil *phil, t_table *table)
+t_all *init_all(t_com *com, t_phil *phil, t_table *table)
 {
 	t_all	*all;
 	int		i;
 
 	if ((all = (t_all *)malloc(sizeof(t_all) * com->phil_nmb)) == NULL)
-		return (NULL);
+		return (0);
 	i = 0;
 	while (i < com->phil_nmb)
 	{
@@ -137,20 +135,41 @@ void	*eat(void *args)
 
     // const philosopher_t *philosopher = arg->philosopher;
     // const table_t *table = arg->table;
- 
-    printf("%d started dinner\n", all->phil->nmb);
- 
-    // pthread_mutex_lock(&table->forks[philosopher->left_fork]);
-    // pthread_mutex_lock(&table->forks[philosopher->right_fork]);
- 
-    // printf("%s is eating\n", philosopher->name);
- 
-    // pthread_mutex_unlock(&table->forks[philosopher->right_fork]);
-    // pthread_mutex_unlock(&table->forks[philosopher->left_fork]);
- 
-    // printf("%s finished dinner\n", philosopher->name);
+	//   [philosopher->left_fork]
+	pthread_mutex_lock(&all->table->mutex[all->phil->right]);
+	
+	write(1, all->phil->name, 1);
+	write(1, " has taken a right fork\n", 24); // rm right
+   
+    pthread_mutex_lock(&all->table->mutex[all->phil->left]);
+
+	write(1, all->phil->name, 1);
+	write(1, " has taken a left fork\n", 23); // rm left
+	
+	write(1, all->phil->name, 1);
+	write(1, " is eating\n", 11);
+	
+	write(1, all->phil->name, 1);
+	write(1, " is sleeping\n", 13);
+	
+	write(1, all->phil->name, 1);
+	write(1, " is thinking\n", 13);
+
+	usleep(40000);
+
+    pthread_mutex_unlock(&all->table->mutex[all->phil->left]);
+    pthread_mutex_unlock(&all->table->mutex[all->phil->right]);
+  
+    // printf("%d finished dinner\n", all->phil->nmb);
 	return (NULL);
 }
+
+// 	timestamp_in_ms X has taken a fork
+// ◦ timestamp_in_ms X is eating
+// ◦ timestamp_in_ms X is sleeping
+// ◦ timestamp_in_ms X is thinking
+// ◦ timestamp_in_ms X died
+
 
 int				main(int argc, char **argv)
 {
@@ -170,25 +189,31 @@ int				main(int argc, char **argv)
 		table = init_table(com.phil_nmb);
 		all = init_all(&com, phil, table); // error
 		i = 0;
+
+		// eat((void *)(&all[0]));
+		// eat((void *)(&all[1]));
+		// eat((void *)(&all[2]));
+		// eat((void *)(&all[3]));
+		// eat((void *)(&all[4]));
+		// eat((void *)(&all[5]));
+
 		while (i < com.phil_nmb)
 		{
-			pthread_create(all[i].phil->thread, NULL, eat, (void *)(&all[i]));
+			// printf("phil %d\n", all[i].phil->nmb);
+			pthread_create(&(all[i].phil->thread), NULL, eat, (void *)(&all[i]));
+			usleep(50);
 			i++;
 		}
 		i = 0;
 		while (i < com.phil_nmb)
 		{
-			pthread_join(all[i].phil->thread[i], NULL);
+			pthread_join(&(all[i].phil->thread[i]), NULL);
 			i++;
 		}
 		// wait();
 		// usleep(10000);
 	}
-// 	timestamp_in_ms X has taken a fork
-// ◦ timestamp_in_ms X is eating
-// ◦ timestamp_in_ms X is sleeping
-// ◦ timestamp_in_ms X is thinking
-// ◦ timestamp_in_ms X died
+
 
 	return (0);
 }
