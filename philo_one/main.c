@@ -88,16 +88,16 @@ t_phil *init_phil(int phil_nmb)
 	return (phil);
 }
  
-t_table *init_table(int phil_nmb)
+t_table *init_table(unsigned int phil_nmb)
 {
-	int i;
+	unsigned int i;
 	t_table *table;
 	pthread_mutex_t		*mutex;
 
 	table = NULL;
 	if ((table = (t_table *)malloc(sizeof(t_table))) == NULL)
 		return (NULL);
-	if ((mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * phil_nmb)) == NULL)
+	if ((mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (phil_nmb + 1))) == NULL)
 		return (NULL);
 	i = 0;
 	while(i < phil_nmb)
@@ -105,6 +105,7 @@ t_table *init_table(int phil_nmb)
 		pthread_mutex_init(&mutex[i], NULL);
 		i++;
 	}
+	pthread_mutex_init(&mutex[i], NULL);
 	table->mutex = mutex;
 	return (table);
 }
@@ -112,7 +113,7 @@ t_table *init_table(int phil_nmb)
 t_all *init_all(t_com *com, t_phil *phil, t_table *table)
 {
 	t_all	*all;
-	int		i;
+	unsigned int		i;
 
 	if ((all = (t_all *)malloc(sizeof(t_all) * com->phil_nmb)) == NULL)
 		return (0);
@@ -129,38 +130,107 @@ t_all *init_all(t_com *com, t_phil *phil, t_table *table)
 
 void	*eat(void *args)
 {
-    // philosopher_args_t *arg = (philosopher_args_t*) args;
-
 	t_all *all = (t_all *)args;
+	struct		timeval tv;
+	int i = 0;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		return (NULL);
+	all->phil->start = (unsigned int)(tv.tv_usec - all->phil->start);
+	// printf("--------------------------->>>>start micro seconds : %d\n", all->phil->start);
+
+
+    // philosopher_args_t *arg = (philosopher_args_t*) args;
 
     // const philosopher_t *philosopher = arg->philosopher;
     // const table_t *table = arg->table;
 	//   [philosopher->left_fork]
-	pthread_mutex_lock(&all->table->mutex[all->phil->right]);
-	
-	write(1, all->phil->name, 1);
-	write(1, " has taken a right fork\n", 24); // rm right
-   
-    pthread_mutex_lock(&all->table->mutex[all->phil->left]);
 
-	write(1, all->phil->name, 1);
-	write(1, " has taken a left fork\n", 23); // rm left
+	while (i < 7)
+	{
+		
 	
-	write(1, all->phil->name, 1);
-	write(1, " is eating\n", 11);
-	
-	write(1, all->phil->name, 1);
-	write(1, " is sleeping\n", 13);
-	
-	write(1, all->phil->name, 1);
-	write(1, " is thinking\n", 13);
+		pthread_mutex_lock(&all->table->mutex[all->phil->right]);
 
-	usleep(40000);
 
-    pthread_mutex_unlock(&all->table->mutex[all->phil->left]);
-    pthread_mutex_unlock(&all->table->mutex[all->phil->right]);
-  
+		pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]);
+		write(1, all->phil->name, 1);
+		write(1, " has taken a right fork\n", 24); // rm right
+		pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
+		// usleep(50);
+
+		pthread_mutex_lock(&all->table->mutex[all->phil->left]);
+
+		pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]);
+		write(1, all->phil->name, 1);
+		write(1, " has taken a left fork\n", 23); // rm left
+		pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
+		// usleep(50);
+
+
+		pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]); // add extra thread
+		write(1, all->phil->name, 1);
+		write(1, " is eating\n", 11);
+		pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
+		
+		// eating
+		while ((all->phil->finish - all->phil->start) < all->com->time_eat)
+		{
+			if (gettimeofday(&tv, NULL) == -1)
+				return (NULL);
+			all->phil->finish = (unsigned int)(tv.tv_usec - all->phil->start);
+		}
+		
+		// new start time
+		// all->phil->start = (unsigned int)(tv.tv_usec - all->phil->start);
+		all->phil->start = all->phil->finish;
+		
+		
+		
+		// usleep(50);
+
+		// while (all->com->time_eat > time_to_action)
+		// {
+		// 	if (gettimeofday(&tv, NULL) == -1)
+		// 		return (NULL);
+		// 	time_to_action = (unsigned int)(tv.tv_usec - all->phil->start);
+		// 	// time_to_action = (unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);
+		// 	printf("-------------%d-------------->>>>time to action micro seconds : %d\n", all->phil->nmb, time_to_action);
+		// }
+
+		// while (i < 7)
+		// {
+		// 	if (gettimeofday(&tv, NULL) == -1)
+		// 		return (NULL);
+		// 	time_to_action = (unsigned int)(tv.tv_usec - all->phil->start);
+		// 	printf("-------%d-------->>>>time to action micro seconds : %ld\n", all->phil->nmb, time_to_action);
+		// 	i++;
+		// }
+		
+
+		// printf("-------------%d-------------->>>>finish eating micro seconds : %d\n", all->phil->nmb, tv.tv_usec);
+		// printf("-------------%d-------------->>>>time to action micro seconds : %d\n", all->phil->nmb, time_to_action);
+
+		pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]);
+		write(1, all->phil->name, 1);
+		write(1, " is sleeping\n", 13);
+		pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
+		// usleep(50);
+
+		pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]);
+		write(1, all->phil->name, 1);
+		write(1, " is thinking\n", 13);
+		pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
+		// usleep(50);
+
+		usleep(40000);
+
+		pthread_mutex_unlock(&all->table->mutex[all->phil->left]);
+		pthread_mutex_unlock(&all->table->mutex[all->phil->right]);
+	
     // printf("%d finished dinner\n", all->phil->nmb);
+	
+	}
 	return (NULL);
 }
 
@@ -177,7 +247,7 @@ int				main(int argc, char **argv)
 	t_phil		*phil;
 	t_table		*table;
 	t_all		*all;
-	int		i;
+	unsigned int		i;
 
 	memset(&com, 0, sizeof(t_com));
 	// memset(&all, 0, sizeof(t_all));

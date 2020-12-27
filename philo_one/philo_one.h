@@ -18,15 +18,25 @@
 #include <pthread.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/time.h>
+
+// struct			timeval  {
+//   time_t			tv_sec ;   //used for seconds
+//   suseconds_t	tv_usec ;   //used for microseconds
+// }
 
 // memset -  fill a byte string with a byte value
+
 // usleep - приостанавливает работу потока
+
 // gettimeofday - определяет время						int gettimeofday(struct timeval *tv, struct timezone *tz);
+
 // pthread_create - Новый поток создаётся				int pthread_create(*ptherad_t, NULL, void* (*start_routine)(void*), void *arg);
 // pthread_detach - обозначаем поток отсоединившимся	int pthread_detach(pthread_t thread);
 					// очистит тебе все..
 					//  При удачном завершении pthread_detach() возвращает код 0, ненулевое значение сигнализирует об ошибке.
 // pthread_join - ожидания завершения потока			int pthread_join(thread_t tid, void **status);
+
 // pthread_mutex_init									int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);		
 // pthread_mutex_destroy								int pthread_mutex_destroy(pthread_mutex_t *mutex);
 // pthread_mutex_lock									int pthread_mutex_lock(pthread_mutex_t *mutex);
@@ -34,15 +44,17 @@
 
 typedef struct			s_com
 {
-	int					phil_nmb;
-    int					time_die;
-	int					time_eat;
-	int					time_sleep;
-	int					meal_nmb;
+	unsigned int		phil_nmb;
+    unsigned int		time_die;
+	unsigned int		time_eat;
+	unsigned int		time_sleep;
+	unsigned int		meal_nmb;
 }						t_com;
 
 typedef struct			s_phil
 {
+	long int			start;
+	long int			finish;
 	int					nmb;
 	char				*name;
 	int					right;
