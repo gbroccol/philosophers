@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/07 12:48:43 by gbroccol          #+#    #+#              #
-#    Updated: 2020/12/07 12:48:47 by gbroccol         ###   ########.fr        #
+#    Updated: 2020/12/29 15:51:58 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,10 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
+				init.c \
+				pars.c \
+				die.c \
+				putnbr.c \
 				libft.c
 					
 OBJ			= $(SRC:.c=.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_one.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:51:15 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/12/07 12:51:16 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/12/29 16:08:57 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct			s_com
 typedef struct			s_phil
 {
 	long int			start;
-	long int			finish;
 	int					nmb;
 	char				*name;
 	int					right;
@@ -72,12 +71,25 @@ typedef struct			s_all
 	t_com				*com;
 	t_table				*table;
     t_phil				*phil;
+	int					die;
+	// pthread_t			thread;
 }						t_all;
+
+t_phil			*init_phil(int phil_nmb);
+t_table			*init_table(unsigned int phil_nmb);
+t_all			*init_all(t_com *com, t_phil *phil, t_table *table);
+
+int				pars_args(t_com *com, char **argv);
+void			error();
+
+void			*phil_die(void *args);
+long int		get_time();
 
 /*
 ** libft
 */
 int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
+void			ft_putnbr_fd(int n, int fd);
 
 #endif
