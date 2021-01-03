@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:51:15 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/03 20:48:27 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/03 20:50:15 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void			thinking(t_all *all);
 
 
 void			*phil_die(void *args);
-// long int		get_time_now(t_all *all);
 long int		get_time(t_all *all);
 
 /*
