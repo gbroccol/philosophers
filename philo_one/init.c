@@ -1,9 +1,9 @@
 #include "philo_one.h"
 
-t_phil *init_phil(int phil_nmb)
+t_phil			*init_phil(int phil_nmb)
 {
-	int				i;
-	t_phil			*phil;
+	int			i;
+	t_phil		*phil;
 
 	i = 0;
 	if ((phil = (t_phil *)malloc(sizeof(t_phil) * phil_nmb)) == NULL)
@@ -17,16 +17,15 @@ t_phil *init_phil(int phil_nmb)
 			phil[i].left = 0;
 		else
 			phil[i].left = i + 1;
-		// printf("Phil %d, right %d, left %d\n", phil[i].nmb, phil[i].right, phil[i].left);
 		i++;
 	}
 	return (phil);
 }
  
-t_table *init_table(unsigned int phil_nmb)
+t_table					*init_table(unsigned int phil_nmb)
 {
-	unsigned int i;
-	t_table *table;
+	unsigned int		i;
+	t_table				*table;
 	pthread_mutex_t		*mutex;
 
 	table = NULL;
@@ -45,21 +44,25 @@ t_table *init_table(unsigned int phil_nmb)
 	return (table);
 }
 
-t_all *init_all(t_com *com, t_phil *phil, t_table *table)
+t_all				*init_all(t_com *com, t_phil *phil, t_table *table)
 {
-	t_all	*all;
-	unsigned int		i;
+	t_all			*all;
+	struct timeval	tv;
+	unsigned int	i;
 
 	if ((all = (t_all *)malloc(sizeof(t_all) * com->phil_nmb)) == NULL)
 		return (0);
 	i = 0;
 	while (i < com->phil_nmb)
 	{
+		all[i].die = 0;
+		if (gettimeofday(&tv, NULL) == -1)
+			return (NULL);
+		all[i].start_prog = (unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);
 		all[i].com = com;
 		all[i].table = table;
 		all[i].phil = &phil[i];
 		i++;
 	}
-	all->die = 0;
 	return (all);
 }

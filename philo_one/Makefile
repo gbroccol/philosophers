@@ -6,7 +6,7 @@
 #    By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/07 12:48:43 by gbroccol          #+#    #+#              #
-#    Updated: 2020/12/29 15:51:58 by gbroccol         ###   ########.fr        #
+#    Updated: 2021/01/03 20:46:45 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,11 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
+				get_time.c \
+				action.c \
+				eating.c \
+				sleeping.c \
+				thinking.c \
 				init.c \
 				pars.c \
 				die.c \
@@ -31,9 +36,9 @@ OBJ			= $(SRC:.c=.o)
 all: $(OBJ)
 	@$(CC) -I./ $(OBJ) -o philo_one
 clean:
-	@$(RM) $(NAME)
-fclean: clean
 	@$(RM) $(OBJ)
+fclean: clean
+	@$(RM) $(NAME)
 re: fclean all
 
 .PHONY: all clean fclean re

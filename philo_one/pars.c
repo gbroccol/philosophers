@@ -2,7 +2,7 @@
 
 void		error()
 {
-	write(1, "Error\nBad arguments\n", 20);
+	write(1, "Error\nWrong arguments\n", 22);
 }
 
 int			ft_is_wrong_smb(char *str)
@@ -37,7 +37,7 @@ int			pars_args(t_com *com, char **argv)
 			return (1);
 		else if (i == 4 && (com->time_sleep = ft_atoi(argv[4])) < 0)
 			return (1);
-		else if (i == 5 && (com->meal_nmb = ft_atoi(argv[5])) < 0)
+		else if (i == 5 && (com->meal_nmb = ft_atoi(argv[5])) < 0) // == 0
 			return (1);
 		i++;
 	}

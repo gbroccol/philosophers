@@ -3,19 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 00:37:12 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/12/08 00:37:12 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/03 20:43:47 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-static int	ft_count_int(int n)
+int			ft_strlen(char *str)
 {
-	int	i;
-	int	negativ;
+	int		i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);	
+}
+
+static int		ft_count_int(int n)
+{
+	int			i;
+	int			negativ;
 
 	i = 0;
 	negativ = 0;
@@ -65,7 +75,7 @@ char		*ft_itoa(int n)
 	return (res);
 }
 
-int	ft_atoi(const char *str)
+int				ft_atoi(const char *str)
 {
 	int			i;
 	long long	res;

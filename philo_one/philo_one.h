@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:51:15 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/12/29 16:08:57 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/03 20:48:27 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct			s_com
     unsigned int		time_die;
 	unsigned int		time_eat;
 	unsigned int		time_sleep;
-	unsigned int		meal_nmb;
+	int					meal_nmb;
 }						t_com;
 
 typedef struct			s_phil
@@ -58,6 +58,7 @@ typedef struct			s_phil
 	char				*name;
 	int					right;
 	int					left;
+	
 	pthread_t			thread;
 }						t_phil;
 
@@ -72,7 +73,7 @@ typedef struct			s_all
 	t_table				*table;
     t_phil				*phil;
 	int					die;
-	// pthread_t			thread;
+	long int			start_prog;
 }						t_all;
 
 t_phil			*init_phil(int phil_nmb);
@@ -82,14 +83,23 @@ t_all			*init_all(t_com *com, t_phil *phil, t_table *table);
 int				pars_args(t_com *com, char **argv);
 void			error();
 
+void			*action(void *args);
+void			eating(t_all *all);
+void			sleeping(t_all *all);
+void			thinking(t_all *all);
+
+
 void			*phil_die(void *args);
-long int		get_time();
+// long int		get_time_now(t_all *all);
+long int		get_time(t_all *all);
 
 /*
 ** libft
 */
 int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
-void			ft_putnbr_fd(int n, int fd);
+void			ft_putnbr_fd(long int n, int fd);
+int				ft_strlen(char *str);
+
 
 #endif
