@@ -31,13 +31,13 @@ int			pars_args(t_com *com, char **argv)
 			return (1);
 		if (i == 1 && (com->phil_nmb = ft_atoi(argv[1])) < 2)
 			return (1);
-		else if (i == 2 && (com->time_die = ft_atoi(argv[2])) < 0)
+		else if (i == 2 && ((com->time_die = ft_atoi(argv[2])) < 0))
 			return (1);
 		else if (i == 3 && (com->time_eat = ft_atoi(argv[3])) < 0)
 			return (1);
 		else if (i == 4 && (com->time_sleep = ft_atoi(argv[4])) < 0)
 			return (1);
-		else if (i == 5 && (com->meal_nmb = ft_atoi(argv[5])) < 0) // == 0
+		else if (i == 5 && (com->meal_nmb = ft_atoi(argv[5])) <= 0)
 			return (1);
 		i++;
 	}

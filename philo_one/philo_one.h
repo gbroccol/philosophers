@@ -44,16 +44,16 @@
 
 typedef struct			s_com
 {
-	unsigned int		phil_nmb;
-    unsigned int		time_die;
-	unsigned int		time_eat;
-	unsigned int		time_sleep;
+	int					phil_nmb;
+    int					time_die;
+	int					time_eat;
+	int					time_sleep;
 	int					meal_nmb;
 }						t_com;
 
 typedef struct			s_phil
 {
-	long int			start;
+	long int			last_meal;
 	int					nmb;
 	char				*name;
 	int					right;
@@ -73,18 +73,18 @@ typedef struct			s_all
 	t_table				*table;
     t_phil				*phil;
 	int					die;
-	long int			start_prog;
+	long int			start_time_ms;
 }						t_all;
 
 t_phil			*init_phil(int phil_nmb);
-t_table			*init_table(unsigned int phil_nmb);
+t_table			*init_table(int phil_nmb);
 t_all			*init_all(t_com *com, t_phil *phil, t_table *table);
 
 int				pars_args(t_com *com, char **argv);
 void			error();
 
 void			*action(void *args);
-void			eating(t_all *all);
+int			eating(t_all *all);
 void			sleeping(t_all *all);
 void			thinking(t_all *all);
 

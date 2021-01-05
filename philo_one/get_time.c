@@ -20,5 +20,5 @@ long int get_time(t_all *all)
 	if (gettimeofday(&tv, NULL) == -1)
 		return (-1);
 	finish = (unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);
-	return (finish - all->start_prog);
+	return (finish - all->start_time_ms);
 }

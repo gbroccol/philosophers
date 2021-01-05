@@ -14,7 +14,7 @@ NAME		= philo_one
 
 INCLUDE		= philo_one.h
 
-CC			= gcc -g -Wall -Wextra -Werror
+CC			= gcc -g -Wall -Wextra -Werror -pthread
 
 RM			= rm -rf
 

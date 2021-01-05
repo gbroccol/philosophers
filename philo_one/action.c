@@ -20,16 +20,22 @@ void	*action(void *args)
 	all = (t_all *)args;
 	if (gettimeofday(&tv, NULL) == -1)
 		return (NULL);
-	all->phil->start = all->start_prog;
 	while (all->die == 0 && all->com->meal_nmb != 0)
 	{
 		if (all->com->meal_nmb == -1 || all->com->meal_nmb > 0)
 		{
-			eating(all);
-			sleeping(all);
-			thinking(all);
-			if (all->com->meal_nmb > 0)
-				all->com->meal_nmb--;
+			if (eating(all) == 1)
+			{
+				all->die = 1;
+				return (NULL);
+			}
+			else
+			{
+				sleeping(all);
+				thinking(all);
+				if (all->com->meal_nmb > 0)
+					all->com->meal_nmb--;
+			}
 		}
 		if (all->com->meal_nmb == 0)
 			break ;

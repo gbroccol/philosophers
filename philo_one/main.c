@@ -18,8 +18,8 @@ int				main(int argc, char **argv)
 	t_phil		*phil;
 	t_table		*table;
 	t_all		*all;
-	pthread_t			thread;
-	unsigned int		i;
+	pthread_t	thread;
+	int			i;
 
 	memset(&com, 0, sizeof(t_com));
 	if (argc < 5 || argc > 6 || pars_args(&com, argv))
@@ -37,13 +37,15 @@ int				main(int argc, char **argv)
 			i++;
 		}
 		pthread_create(&thread, NULL, phil_die, (void *)(all));
-		i = 0;
-		while (i < com.phil_nmb)
-		{
-			pthread_join(&(all[i].phil->thread[i]), NULL);
-			i++;
-		}
 		pthread_join(thread, NULL);
+		// i = 0;
+		// while (i < com.phil_nmb)
+		// {
+		// 	pthread_detach(thread);
+		// 	// pthread_join((all[i].phil->thread), NULL);
+		// 	i++;
+		// }
+		
 	}
 	return (0);
 }
