@@ -10,3 +10,4 @@ make
 2. time for actions
 3. add extra thread for writing
 4. add extra thread for each philos
+5. leaks
