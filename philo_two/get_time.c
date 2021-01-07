@@ -6,11 +6,11 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 20:38:52 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/03 20:38:53 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/07 20:44:27 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 long int get_time(t_all *all)
 {

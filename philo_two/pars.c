@@ -1,9 +1,16 @@
-#include "philo_one.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pars.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/07 19:00:58 by gbroccol          #+#    #+#             */
+/*   Updated: 2021/01/07 19:01:13 by gbroccol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void		error()
-{
-	write(1, "Error\nWrong arguments\n", 22);
-}
+#include "philo_two.h"
 
 int			ft_is_wrong_smb(char *str)
 {
@@ -19,12 +26,21 @@ int			ft_is_wrong_smb(char *str)
 	return (0);
 }
 
+int			check_values(t_com *com)
+{
+	if (com->phil_nmb > 200 || com->phil_nmb < 2)
+		return (1);
+	if (com->time_die > 2147483647 || com->time_die < 0)
+		return (1);
+	return (0);
+}
+
 int			pars_args(t_com *com, char **argv)
 {
 	int		i;
 
 	i = 1;
-	com->meal_nmb = -1;
+	com->meal = -1;
 	while (argv[i] != NULL)
 	{
 		if (ft_is_wrong_smb(argv[i]))
@@ -37,9 +53,9 @@ int			pars_args(t_com *com, char **argv)
 			return (1);
 		else if (i == 4 && (com->time_sleep = ft_atoi(argv[4])) < 0)
 			return (1);
-		else if (i == 5 && (com->meal_nmb = ft_atoi(argv[5])) <= 0)
+		else if (i == 5 && (com->meal = ft_atoi(argv[5])) <= 0)
 			return (1);
 		i++;
 	}
-	return (0);
+	return (check_values(com));
 }

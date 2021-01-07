@@ -1,6 +1,18 @@
-#include "philo_one.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/07 19:05:24 by gbroccol          #+#    #+#             */
+/*   Updated: 2021/01/07 21:22:53 by gbroccol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_phil			*init_phil(int phil_nmb)
+#include "philo_two.h"
+
+t_phil			*init_phil(int phil_nmb, int meal)
 {
 	int			i;
 	t_phil		*phil;
@@ -10,37 +22,48 @@ t_phil			*init_phil(int phil_nmb)
 		return (NULL);
 	while (i < phil_nmb)
 	{
+		phil[i].last_meal = 0;
+		phil[i].death = 0;
+		phil[i].meal_count = meal;
 		phil[i].nmb = i + 1;
-		phil[i].name = ft_itoa(phil[i].nmb);
-		phil[i].right = i;
-		if ((phil_nmb - 1) == i)
-			phil[i].left = 0;
-		else
-			phil[i].left = i + 1;
+		// phil[i].name = ft_itoa(phil[i].nmb);
+		// phil[i].right = i;
+		// if ((phil_nmb - 1) == i)
+		// 	phil[i].left = 0;
+		// else
+		// 	phil[i].left = i + 1;
 		i++;
 	}
 	return (phil);
 }
  
-t_table					*init_table(int phil_nmb)
+t_table			*init_table(int phil_nmb)
 {
-	int		i;
-	t_table				*table;
-	pthread_mutex_t		*mutex;
+	t_table		*table;
+	sem_t		*sem_id;
+	sem_t		*sem_print_id;
 
 	table = NULL;
 	if ((table = (t_table *)malloc(sizeof(t_table))) == NULL)
 		return (NULL);
-	if ((mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (phil_nmb + 1))) == NULL)
+	if ((sem_id = (sem_t *)malloc(sizeof(sem_t))) == NULL)
 		return (NULL);
-	i = 0;
-	while(i < phil_nmb)
+	if ((sem_print_id = (sem_t *)malloc(sizeof(sem_t))) == NULL)
+		return (NULL);
+	if ((sem_id = sem_open("sem_id", O_CREAT, 0666, phil_nmb)) == SEM_FAILED)
 	{
-		pthread_mutex_init(&mutex[i], NULL);
-		i++;
+		ft_putnbr_fd(22, 1);
+		write(1, "\n", 1);
+		exit (1); // ???
 	}
-	pthread_mutex_init(&mutex[i], NULL);
-	table->mutex = mutex;
+		
+	table->sem_id = sem_id;
+
+
+
+	if ((sem_print_id = sem_open("sem_print_id", O_CREAT, 0666, 1)) == SEM_FAILED)
+		exit (1); // ???
+	table->sem_print_id = sem_print_id;
 	return (table);
 }
 
@@ -55,7 +78,6 @@ t_all				*init_all(t_com *com, t_phil *phil, t_table *table)
 	i = 0;
 	while (i < com->phil_nmb)
 	{
-		all[i].die = 0;
 		if (gettimeofday(&tv, NULL) == -1)
 			return (NULL);
 		all[i].start_time_ms = (unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);
