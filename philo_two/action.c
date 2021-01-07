@@ -24,6 +24,7 @@ void	*action(void *args)
 	{
 		if (all->phil->meal_count == -1 || all->phil->meal_count > 0)
 		{
+			
 			if (eating(all) == 1 || sleeping(all) == 1 || thinking(all) == 1)
 				return (NULL);
 			if (all->phil->meal_count > 0)

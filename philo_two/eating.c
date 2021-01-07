@@ -37,12 +37,7 @@ int			eating(t_all *all)
 	long int	start;
 	long int	finish;
 
-// wait --
-// post ++
-
-	sem_wait(all->table->sem_id); // 1 fork
-
-	// write(1, "hi\n", 3);
+	sem_wait(all->table->sem_id);
 	
 	start = get_time(all);
 	if ((start - all->phil->last_meal) > all->com->time_die)
@@ -61,7 +56,7 @@ int			eating(t_all *all)
 		sem_post(all->table->sem_print_id);
 	}
 
-	sem_wait(all->table->sem_id); // 2 fork
+	sem_wait(all->table->sem_id);
 	start = get_time(all);
 	if ((start - all->phil->last_meal) > all->com->time_die)
 	{

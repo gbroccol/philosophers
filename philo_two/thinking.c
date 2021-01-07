@@ -26,10 +26,13 @@ int				thinking(t_all *all)
 	else
 	{
 		ft_putnbr_fd(start, 1);
+		
 		write(1, "ms ", 3);
 		ft_putnbr_fd(all->phil->nmb, 1); // change
 		write(1, " is thinking\n", 13);
 		sem_post(all->table->sem_print_id);
 	}
+
+	
 	return (0);
 }

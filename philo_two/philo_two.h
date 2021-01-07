@@ -13,6 +13,8 @@
 #ifndef PHILO_TWO_H
 # define PHILO_TWO_H
 
+// ./philo_two 4 310 200 100 SEGA
+
 
 	// sem_post(all->table->sem_id); // unlock
 	// sem_wait(all->table->sem_id); // lock
@@ -38,6 +40,8 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+#include <fcntl.h>
+
 typedef struct			s_com
 {
 	long int			phil_nmb;
@@ -52,9 +56,6 @@ typedef struct			s_phil
 	long int			last_meal;
 	int					meal_count;
 	int					nmb;
-	char				*name;
-// 	int					right;
-// 	int					left;
 	int					death;
 	pthread_t			thread;
 }						t_phil;

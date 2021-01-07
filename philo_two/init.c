@@ -26,12 +26,6 @@ t_phil			*init_phil(int phil_nmb, int meal)
 		phil[i].death = 0;
 		phil[i].meal_count = meal;
 		phil[i].nmb = i + 1;
-		// phil[i].name = ft_itoa(phil[i].nmb);
-		// phil[i].right = i;
-		// if ((phil_nmb - 1) == i)
-		// 	phil[i].left = 0;
-		// else
-		// 	phil[i].left = i + 1;
 		i++;
 	}
 	return (phil);
@@ -50,17 +44,14 @@ t_table			*init_table(int phil_nmb)
 		return (NULL);
 	if ((sem_print_id = (sem_t *)malloc(sizeof(sem_t))) == NULL)
 		return (NULL);
+	sem_unlink("sem_id");
 	if ((sem_id = sem_open("sem_id", O_CREAT, 0666, phil_nmb)) == SEM_FAILED)
 	{
-		ft_putnbr_fd(22, 1);
-		write(1, "\n", 1);
 		exit (1); // ???
 	}
-		
 	table->sem_id = sem_id;
 
-
-
+	sem_unlink("sem_print_id");
 	if ((sem_print_id = sem_open("sem_print_id", O_CREAT, 0666, 1)) == SEM_FAILED)
 		exit (1); // ???
 	table->sem_print_id = sem_print_id;

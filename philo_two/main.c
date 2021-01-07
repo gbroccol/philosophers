@@ -36,58 +36,6 @@ int				main(int argc, char **argv)
 		table = init_table(com.phil_nmb); // error
 		all = init_all(&com, phil, table); // error
 		i = 0;
-
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		sem_wait(all->table->sem_id);
-		write(1, "1\n", 2);
-		
-		write(1, "2\n", 2);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		sem_post(all->table->sem_id);
-		write(1, "3\n", 2);
-
 		while (i < com.phil_nmb)
 		{
 			pthread_create(&(all[i].phil->thread), NULL, action, (void *)(&all[i]));
@@ -99,7 +47,7 @@ int				main(int argc, char **argv)
 		i = 0;
 		while (i < com.phil_nmb)
 		{
-			pthread_detach(thread);
+			pthread_detach(all[i].phil->thread);
 			i++;
 		}
 	}

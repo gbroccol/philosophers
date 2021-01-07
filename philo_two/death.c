@@ -57,10 +57,11 @@ void			*phil_death(void *args)
 					sem_wait(all->table->sem_print_id);
 					ft_putnbr_fd(finish, 1);
 					write(1, "ms ", 3);
-					write(1, all[i].phil->name, ft_strlen(all[i].phil->name));
+					ft_putnbr_fd(all[i].phil->nmb, 1);
 					write(1, " died\n", 6);
 					set_death(all);
 					sem_post(all->table->sem_print_id);
+					return (NULL);
 				}
 				if (all[i].phil->meal_count == -1 || (all[i].phil->meal_count == 0 && check_phil_is_full(all) == 1))
 					return (NULL);

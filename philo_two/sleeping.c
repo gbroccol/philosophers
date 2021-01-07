@@ -27,6 +27,8 @@ int		sleeping(t_all *all)
 	else
 	{
 		ft_putnbr_fd(start, 1);
+				// write(1, ">>>", 3);
+		
 		write(1, "ms ", 3);
 		ft_putnbr_fd(all->phil->nmb, 1); // change
 		write(1, " is sleeping\n", 13);
