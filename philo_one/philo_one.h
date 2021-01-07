@@ -6,65 +6,43 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:51:15 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/03 20:50:15 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/07 18:13:09 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
 
-#include <stdio.h> // delete
 #include <unistd.h>
 #include <pthread.h>
 #include <string.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
-// struct			timeval  {
-//   time_t			tv_sec ;   //used for seconds
-//   suseconds_t	tv_usec ;   //used for microseconds
-// }
-
-// memset -  fill a byte string with a byte value
-
-// usleep - приостанавливает работу потока
-
-// gettimeofday - определяет время						int gettimeofday(struct timeval *tv, struct timezone *tz);
-
-// pthread_create - Новый поток создаётся				int pthread_create(*ptherad_t, NULL, void* (*start_routine)(void*), void *arg);
-// pthread_detach - обозначаем поток отсоединившимся	int pthread_detach(pthread_t thread);
-					// очистит тебе все..
-					//  При удачном завершении pthread_detach() возвращает код 0, ненулевое значение сигнализирует об ошибке.
-// pthread_join - ожидания завершения потока			int pthread_join(thread_t tid, void **status);
-
-// pthread_mutex_init									int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);		
-// pthread_mutex_destroy								int pthread_mutex_destroy(pthread_mutex_t *mutex);
-// pthread_mutex_lock									int pthread_mutex_lock(pthread_mutex_t *mutex);
-// pthread_mutex_unlock									int pthread_mutex_unlock(pthread_mutex_t *mutex);
-
 typedef struct			s_com
 {
-	int					phil_nmb;
-    int					time_die;
-	int					time_eat;
-	int					time_sleep;
-	int					meal_nmb;
+	long int			phil_nmb;
+    long int			time_die;
+	long int			time_eat;
+	long int			time_sleep;
+	long int			meal;
 }						t_com;
 
 typedef struct			s_phil
 {
 	long int			last_meal;
+	int					meal_count;
 	int					nmb;
 	char				*name;
 	int					right;
 	int					left;
-	
+	int					death;
 	pthread_t			thread;
 }						t_phil;
 
 typedef struct			s_table
 {
-    pthread_mutex_t		*mutex;		//???
+    pthread_mutex_t		*mutex;
 }						t_table;
 
 typedef struct			s_all
@@ -72,33 +50,27 @@ typedef struct			s_all
 	t_com				*com;
 	t_table				*table;
     t_phil				*phil;
-	int					die;
 	long int			start_time_ms;
 }						t_all;
 
-t_phil			*init_phil(int phil_nmb);
-t_table			*init_table(int phil_nmb);
-t_all			*init_all(t_com *com, t_phil *phil, t_table *table);
-
-int				pars_args(t_com *com, char **argv);
-void			error();
-
-void			*action(void *args);
-int			eating(t_all *all);
-void			sleeping(t_all *all);
-void			thinking(t_all *all);
-
-
-void			*phil_die(void *args);
-long int		get_time(t_all *all);
+t_phil					*init_phil(int phil_nmb, int meal);
+t_table					*init_table(int phil_nmb);
+t_all					*init_all(t_com *com, t_phil *phil, t_table *table);
+int						pars_args(t_com *com, char **argv);
+void					error();
+void					*action(void *args);
+int						eating(t_all *all);
+int						sleeping(t_all *all);
+int						thinking(t_all *all);
+void					*phil_die(void *args);
+long int				get_time(t_all *all);
 
 /*
 ** libft
 */
-int				ft_atoi(const char *str);
-char			*ft_itoa(int n);
-void			ft_putnbr_fd(long int n, int fd);
-int				ft_strlen(char *str);
-
+int						ft_atoi(const char *str);
+char					*ft_itoa(int n);
+void					ft_putnbr_fd(long int n, int fd);
+int						ft_strlen(char *str);
 
 #endif

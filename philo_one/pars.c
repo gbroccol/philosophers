@@ -19,12 +19,21 @@ int			ft_is_wrong_smb(char *str)
 	return (0);
 }
 
+int			check_values(t_com *com)
+{
+	if (com->phil_nmb > 200 || com->phil_nmb < 2)
+		return (1);
+	if (com->time_die > 2147483647 || com->time_die < 0)
+		return (1);
+	return (0);
+}
+
 int			pars_args(t_com *com, char **argv)
 {
 	int		i;
 
 	i = 1;
-	com->meal_nmb = -1;
+	com->meal = -1;
 	while (argv[i] != NULL)
 	{
 		if (ft_is_wrong_smb(argv[i]))
@@ -37,9 +46,9 @@ int			pars_args(t_com *com, char **argv)
 			return (1);
 		else if (i == 4 && (com->time_sleep = ft_atoi(argv[4])) < 0)
 			return (1);
-		else if (i == 5 && (com->meal_nmb = ft_atoi(argv[5])) <= 0)
+		else if (i == 5 && (com->meal = ft_atoi(argv[5])) <= 0)
 			return (1);
 		i++;
 	}
-	return (0);
+	return (check_values(com));
 }

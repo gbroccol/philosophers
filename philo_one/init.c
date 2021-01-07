@@ -1,6 +1,6 @@
 #include "philo_one.h"
 
-t_phil			*init_phil(int phil_nmb)
+t_phil			*init_phil(int phil_nmb, int meal)
 {
 	int			i;
 	t_phil		*phil;
@@ -10,6 +10,9 @@ t_phil			*init_phil(int phil_nmb)
 		return (NULL);
 	while (i < phil_nmb)
 	{
+		phil[i].last_meal = 0;
+		phil[i].death = 0;
+		phil[i].meal_count = meal;
 		phil[i].nmb = i + 1;
 		phil[i].name = ft_itoa(phil[i].nmb);
 		phil[i].right = i;
@@ -55,7 +58,6 @@ t_all				*init_all(t_com *com, t_phil *phil, t_table *table)
 	i = 0;
 	while (i < com->phil_nmb)
 	{
-		all[i].die = 0;
 		if (gettimeofday(&tv, NULL) == -1)
 			return (NULL);
 		all[i].start_time_ms = (unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);

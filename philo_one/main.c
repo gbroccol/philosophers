@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:53:49 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/03 20:47:20 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/07 18:14:01 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int				main(int argc, char **argv)
 		error();
 	else
 	{
-		phil = init_phil(com.phil_nmb);
+		phil = init_phil(com.phil_nmb, com.meal);
 		table = init_table(com.phil_nmb);
 		all = init_all(&com, phil, table); // error
 		i = 0;
