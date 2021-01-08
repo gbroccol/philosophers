@@ -6,11 +6,11 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 20:47:28 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/03 20:47:29 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/08 14:22:29 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_three.h"
 
 void	*action(void *args)
 {
@@ -20,25 +20,16 @@ void	*action(void *args)
 	all = (t_all *)args;
 	if (gettimeofday(&tv, NULL) == -1)
 		return (NULL);
-	while (all->die == 0 && all->com->meal_nmb != 0)
+	while (all->phil->meal_count != 0)
 	{
-		if (all->com->meal_nmb == -1 || all->com->meal_nmb > 0)
+		if (all->phil->meal_count == -1 || all->phil->meal_count > 0)
 		{
-			if (eating(all) == 1)
-			{
-				all->die = 1;
+			if (eating(all) == 1 || sleeping(all) == 1 || thinking(all) == 1)
 				return (NULL);
-			}
-			else
-			{
-				sleeping(all);
-				thinking(all);
-				if (all->com->meal_nmb > 0)
-					all->com->meal_nmb--;
-			}
+			if (all->phil->meal_count > 0)
+				all->phil->meal_count--;
+			usleep(50);
 		}
-		if (all->com->meal_nmb == 0)
-			break ;
 	}
 	return (NULL);
 }

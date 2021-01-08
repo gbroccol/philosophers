@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 20:47:28 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/07 17:34:04 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/08 14:21:25 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	*action(void *args)
 				return (NULL);
 			if (all->phil->meal_count > 0)
 				all->phil->meal_count--;
+			usleep(50); // ???
 		}
 	}
 	return (NULL);

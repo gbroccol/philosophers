@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 19:05:24 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/07 21:22:53 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/08 13:46:56 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_table			*init_table(int phil_nmb)
 		return (NULL);
 	if ((sem_print_id = (sem_t *)malloc(sizeof(sem_t))) == NULL)
 		return (NULL);
+		// On success sem_unlink() returns 0; on error, -1 is returned, with errno set to indicate the error.
 	sem_unlink("sem_id");
 	if ((sem_id = sem_open("sem_id", O_CREAT, 0666, phil_nmb)) == SEM_FAILED)
 	{

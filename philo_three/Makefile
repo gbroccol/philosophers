@@ -6,15 +6,15 @@
 #    By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/07 12:48:43 by gbroccol          #+#    #+#              #
-#    Updated: 2021/01/03 20:46:45 by gbroccol         ###   ########.fr        #
+#    Updated: 2021/01/08 13:58:29 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= philo_one
+NAME		= philo_three
 
-INCLUDE		= philo_one.h
+INCLUDE		= philo_three.h
 
-CC			= gcc -g -Wall -Wextra -Werror -pthread
+CC			= gcc -g -Wall -Wextra -Werror
 
 RM			= rm -rf
 
@@ -27,14 +27,14 @@ SRC			= \
 				thinking.c \
 				init.c \
 				pars.c \
-				die.c \
+				death.c \
 				putnbr.c \
 				libft.c
 					
 OBJ			= $(SRC:.c=.o)
 
 all: $(OBJ)
-	@$(CC) -I./ $(OBJ) -o philo_one
+	@$(CC) -I./ $(OBJ) -o philo_three
 clean:
 	@$(RM) $(OBJ)
 fclean: clean
