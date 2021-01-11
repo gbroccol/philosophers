@@ -6,23 +6,23 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:51:15 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/07 18:13:09 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:17:38 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_ONE_H
 # define PHILO_ONE_H
 
-#include <unistd.h>
-#include <pthread.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sys/time.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <string.h>
+# include <stdlib.h>
+# include <sys/time.h>
 
 typedef struct			s_com
 {
 	long int			phil_nmb;
-    long int			time_die;
+	long int			time_die;
 	long int			time_eat;
 	long int			time_sleep;
 	long int			meal;
@@ -33,7 +33,6 @@ typedef struct			s_phil
 	long int			last_meal;
 	int					meal_count;
 	int					nmb;
-	char				*name;
 	int					right;
 	int					left;
 	int					death;
@@ -42,26 +41,22 @@ typedef struct			s_phil
 
 typedef struct			s_table
 {
-    pthread_mutex_t		*mutex;
+	pthread_mutex_t		*mutex;
 }						t_table;
 
 typedef struct			s_all
 {
 	t_com				*com;
 	t_table				*table;
-    t_phil				*phil;
+	t_phil				*phil;
 	long int			start_time_ms;
 }						t_all;
 
 t_phil					*init_phil(int phil_nmb, int meal);
 t_table					*init_table(int phil_nmb);
-t_all					*init_all(t_com *com, t_phil *phil, t_table *table);
+t_all					*init_all(t_com *com);
 int						pars_args(t_com *com, char **argv);
-void					error();
 void					*action(void *args);
-int						eating(t_all *all);
-int						sleeping(t_all *all);
-int						thinking(t_all *all);
 void					*phil_die(void *args);
 long int				get_time(t_all *all);
 
@@ -69,7 +64,6 @@ long int				get_time(t_all *all);
 ** libft
 */
 int						ft_atoi(const char *str);
-char					*ft_itoa(int n);
 void					ft_putnbr_fd(long int n, int fd);
 int						ft_strlen(char *str);
 

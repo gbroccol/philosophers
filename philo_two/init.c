@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 19:05:24 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/08 13:46:56 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/11 11:54:12 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ t_table			*init_table(int phil_nmb)
 	sem_unlink("sem_id");
 	if ((sem_id = sem_open("sem_id", O_CREAT, 0666, phil_nmb)) == SEM_FAILED)
 	{
-		exit (1); // ???
+		exit (1); // ??? запрещено использовать
 	}
 	table->sem_id = sem_id;
 
 	sem_unlink("sem_print_id");
 	if ((sem_print_id = sem_open("sem_print_id", O_CREAT, 0666, 1)) == SEM_FAILED)
-		exit (1); // ???
+		exit (1); // ??? запрещено использовать
 	table->sem_print_id = sem_print_id;
 	return (table);
 }

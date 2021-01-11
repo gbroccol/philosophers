@@ -6,9 +6,11 @@
 #    By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/07 12:48:43 by gbroccol          #+#    #+#              #
-#    Updated: 2021/01/08 13:58:29 by gbroccol         ###   ########.fr        #
+#    Updated: 2021/01/11 13:18:23 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# ./philo_three 4 310 200 100 1
 
 NAME		= philo_three
 
@@ -27,7 +29,7 @@ SRC			= \
 				thinking.c \
 				init.c \
 				pars.c \
-				death.c \
+				phil_death.c \
 				putnbr.c \
 				libft.c
 					

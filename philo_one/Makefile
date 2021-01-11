@@ -6,7 +6,7 @@
 #    By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/07 12:48:43 by gbroccol          #+#    #+#              #
-#    Updated: 2021/01/03 20:46:45 by gbroccol         ###   ########.fr        #
+#    Updated: 2021/01/11 16:45:11 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,9 @@ SRC			= \
 				main.c \
 				get_time.c \
 				action.c \
-				eating.c \
-				sleeping.c \
-				thinking.c \
 				init.c \
 				pars.c \
-				die.c \
+				phil_die.c \
 				putnbr.c \
 				libft.c
 					

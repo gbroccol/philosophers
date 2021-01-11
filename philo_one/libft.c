@@ -6,73 +6,20 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 00:37:12 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/03 20:43:47 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:21:07 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-int			ft_strlen(char *str)
+int				ft_strlen(char *str)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (str[i] != '\0')
 		i++;
-	return (i);	
-}
-
-static int		ft_count_int(int n)
-{
-	int			i;
-	int			negativ;
-
-	i = 0;
-	negativ = 0;
-	if (n == -2147483648)
-		return (11);
-	if (n == 0)
-		return (1);
-	if (n < 0)
-	{
-		negativ = 1;
-		n = n * (-1);
-	}
-	while (n != 0)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (negativ ? (i + 1) : i);
-}
-
-char		*ft_itoa(int n)
-{
-	char	*res;
-	int		count;
-	int		negativ;
-
-	negativ = 0;
-	if (n < 0)
-		negativ = 1;
-	count = ft_count_int(n);
-	if ((res = malloc((count + 1) * sizeof(char))) == NULL)
-		return (NULL);
-	res[count] = '\0';
-	if (n == -2147483648)
-		res[--count] = '8';
-	if (n == -2147483648)
-		n = -214748364;
-	if (negativ == 1)
-		n = n * (-1);
-	while (count)
-	{
-		res[--count] = ((char)(n % 10 + '0'));
-		n = n / 10;
-	}
-	if (negativ == 1)
-		res[0] = '-';
-	return (res);
+	return (i);
 }
 
 int				ft_atoi(const char *str)
