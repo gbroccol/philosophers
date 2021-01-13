@@ -6,21 +6,34 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:53:49 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 17:10:45 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:15:17 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
+void			free_all(t_all *all)
+{
+	if (all->phil != NULL)
+		free(all->phil);
+	if (all->table != NULL)
+		free(all->table);
+	if (all->table->mutex != NULL)
+		free(all->table->mutex);
+	if (all != NULL)
+		free(all);
+}
+
 int				error_arg(void)
 {
-	write(1, "Error\nWrong arguments\n", 22);
+	write(2, "Error\nWrong arguments\n", 22);
 	return (1);
 }
 
-int				error_fatal(void)
+int				error_fatal(t_all *all)
 {
-	write(1, "Error fatal\n", 12);
+	write(2, "Error fatal\n", 12);
+	free_all(all);
 	return (1);
 }
 
@@ -56,9 +69,11 @@ int				main(int argc, char **argv)
 		return (error_arg());
 	else
 	{
+		all = NULL;
 		if ((all = init_all(&com)) == NULL)
-			return (error_fatal());
+			return (error_fatal(all));
 		threads_launch(all, &com);
 	}
+	free_all(all);
 	return (0);
 }

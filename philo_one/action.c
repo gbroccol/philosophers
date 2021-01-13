@@ -6,16 +6,17 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 20:47:28 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 17:14:22 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 16:22:58 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-void				print_action(t_all *all, char *text, int phil)
+static long int		print_action(t_all *all, char *text, int phil)
 {
 	long int		start;
 
+	start = -1;
 	pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]);
 	if (all->phil->death == 0)
 	{
@@ -26,37 +27,35 @@ void				print_action(t_all *all, char *text, int phil)
 		write(1, text, ft_strlen(text));
 	}
 	pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
+	return (start);
 }
 
-void				sleeping(t_all *all)
+static void			sleeping(t_all *all)
 {
 	long int		start;
-	long int		finish;
 
-	print_action(all, " is sleeping\n", all->phil->nmb);
-	start = get_time(all);
-	finish = start;
-	while ((finish = get_time(all)) - start < all->com->time_sleep)
-		usleep(1);
+	start = print_action(all, " is sleeping\n", all->phil->nmb);
+	if (start != -1)
+	{
+		while ((get_time(all) - start) < all->com->time_sleep)
+			usleep(1);
+	}
 }
 
-void				eating(t_all *all)
+static void			eating(t_all *all)
 {
 	long int		start;
-	long int		finish;
 
 	pthread_mutex_lock(&all->table->mutex[all->phil->right]);
 	print_action(all, " has taken a fork\n", all->phil->nmb);
 	pthread_mutex_lock(&all->table->mutex[all->phil->left]);
 	print_action(all, " has taken a fork\n", all->phil->nmb);
-	print_action(all, " is eating\n", all->phil->nmb);
-	start = get_time(all);
-	finish = start;
-	all->phil->last_meal = start;
-	while ((finish - start) < all->com->time_eat)
+	start = print_action(all, " is eating\n", all->phil->nmb);
+	if (start != -1)
 	{
-		usleep(1);
-		finish = get_time(all);
+		all->phil->last_meal = start;
+		while ((get_time(all) - start) < all->com->time_eat)
+			usleep(1);
 	}
 	pthread_mutex_unlock(&all->table->mutex[all->phil->left]);
 	pthread_mutex_unlock(&all->table->mutex[all->phil->right]);

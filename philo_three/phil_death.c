@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 15:01:30 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 15:48:06 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:30:19 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void			*phil_death(void *args)
 			else
 				exit(2);
 		}
-		usleep(10);
+		usleep(20);
 	}
 	return (NULL);
 }

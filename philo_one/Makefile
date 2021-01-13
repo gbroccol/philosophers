@@ -6,7 +6,7 @@
 #    By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/07 12:48:43 by gbroccol          #+#    #+#              #
-#    Updated: 2021/01/11 16:45:11 by gbroccol         ###   ########.fr        #
+#    Updated: 2021/01/12 18:07:27 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,14 @@ CC			= gcc -g -Wall -Wextra -Werror -pthread
 RM			= rm -rf
 
 SRC			= \
-				main.c \
-				get_time.c \
 				action.c \
+				ft_atoi.c \
+				get_time.c \
 				init.c \
+				main.c \
 				pars.c \
 				phil_die.c \
-				putnbr.c \
-				libft.c
+				putnbr.c
 					
 OBJ			= $(SRC:.c=.o)
 

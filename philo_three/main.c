@@ -6,16 +6,20 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 12:53:49 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 15:51:38 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 18:05:11 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
 
-int				error(void)
+void			free_all(t_all *all)
 {
-	write(2, "Error\nWrong arguments\n", 22);
-	return (-1);
+	if (all->phil != NULL)
+		free(all->phil);
+	if (all->table != NULL)
+		free(all->table);
+	if (all != NULL)
+		free(all);
 }
 
 void			kill_all(t_all *all)
@@ -85,16 +89,21 @@ int				main(int argc, char **argv)
 
 	memset(&com, 0, sizeof(t_com));
 	if (argc < 5 || argc > 6 || pars_args(&com, argv))
-		return (error());
+	{
+		write(2, "Error\nWrong arguments\n", 22);
+		return (1);
+	}
 	else
 	{
-		if ((all = init_all(&com)) == NULL)
-			return (error());
-		if (launch_children(all) == -1 || wait_children(all) == -1)
+		if ((all = init_all(&com)) == NULL ||
+				launch_children(all) == -1 ||
+				wait_children(all) == -1)
 		{
 			write(2, "error: fatal\n", 13);
+			free_all(all);
 			return (-1);
 		}
 	}
+	free_all(all);
 	return (0);
 }

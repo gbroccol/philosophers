@@ -6,16 +6,16 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 19:05:24 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 11:54:12 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:09:58 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_two.h"
 
-t_phil			*init_phil(int phil_nmb, int meal)
+t_phil				*init_phil(int phil_nmb, int meal)
 {
-	int			i;
-	t_phil		*phil;
+	int				i;
+	t_phil			*phil;
 
 	i = 0;
 	if ((phil = (t_phil *)malloc(sizeof(t_phil) * phil_nmb)) == NULL)
@@ -30,49 +30,46 @@ t_phil			*init_phil(int phil_nmb, int meal)
 	}
 	return (phil);
 }
- 
-t_table			*init_table(int phil_nmb)
+
+t_table				*init_table(int phil_nmb)
 {
-	t_table		*table;
-	sem_t		*sem_id;
-	sem_t		*sem_print_id;
+	t_table			*table;
 
 	table = NULL;
 	if ((table = (t_table *)malloc(sizeof(t_table))) == NULL)
 		return (NULL);
-	if ((sem_id = (sem_t *)malloc(sizeof(sem_t))) == NULL)
-		return (NULL);
-	if ((sem_print_id = (sem_t *)malloc(sizeof(sem_t))) == NULL)
-		return (NULL);
-		// On success sem_unlink() returns 0; on error, -1 is returned, with errno set to indicate the error.
 	sem_unlink("sem_id");
-	if ((sem_id = sem_open("sem_id", O_CREAT, 0666, phil_nmb)) == SEM_FAILED)
-	{
-		exit (1); // ??? запрещено использовать
-	}
-	table->sem_id = sem_id;
-
+	if ((table->sem_id = sem_open("sem_id", O_CREAT, 0666, phil_nmb))
+				== SEM_FAILED)
+		return (NULL);
 	sem_unlink("sem_print_id");
-	if ((sem_print_id = sem_open("sem_print_id", O_CREAT, 0666, 1)) == SEM_FAILED)
-		exit (1); // ??? запрещено использовать
-	table->sem_print_id = sem_print_id;
+	if ((table->sem_print_id = sem_open("sem_print_id", O_CREAT, 0666, 1))
+				== SEM_FAILED)
+		return (NULL);
 	return (table);
 }
 
-t_all				*init_all(t_com *com, t_phil *phil, t_table *table)
+t_all				*init_all(t_com *com)
 {
 	t_all			*all;
+	t_phil			*phil;
+	t_table			*table;
 	struct timeval	tv;
-	int	i;
+	int				i;
 
+	if ((phil = init_phil(com->phil_nmb, com->meal)) == NULL)
+		return (NULL);
+	if ((table = init_table(com->phil_nmb)) == NULL)
+		return (NULL);
 	if ((all = (t_all *)malloc(sizeof(t_all) * com->phil_nmb)) == NULL)
-		return (0);
+		return (NULL);
+	if (gettimeofday(&tv, NULL) == -1)
+		return (NULL);
+	com->start_time_ms =
+				(unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);
 	i = 0;
 	while (i < com->phil_nmb)
 	{
-		if (gettimeofday(&tv, NULL) == -1)
-			return (NULL);
-		all[i].start_time_ms = (unsigned int)((tv.tv_sec) * 1000 + (tv.tv_usec) / 1000);
 		all[i].com = com;
 		all[i].table = table;
 		all[i].phil = &phil[i];

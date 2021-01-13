@@ -6,7 +6,7 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/29 15:01:30 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 16:51:13 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 16:21:50 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,17 @@ int				check_death(t_all *all, int i, long int finish)
 	if (all[i].phil->meal_count != 0)
 	{
 		pthread_mutex_lock(&all->table->mutex[all->com->phil_nmb]);
-		ft_putnbr_fd(finish, 1);
-		write(1, "ms ", 3);
-		ft_putnbr_fd(all[i].phil->nmb, 1);
-		write(1, " died\n", 6);
-		set_death(all);
-		return (1);
+		if ((finish - all[i].phil->last_meal) > all->com->time_die)
+		{
+			ft_putnbr_fd(finish, 1);
+			write(1, "ms ", 3);
+			ft_putnbr_fd(all[i].phil->nmb, 1);
+			write(1, " died\n", 6);
+			set_death(all);
+			return (1);
+		}
+		else
+			pthread_mutex_unlock(&all->table->mutex[all->com->phil_nmb]);
 	}
 	if (all[i].phil->meal_count == -1 ||
 		(all[i].phil->meal_count == 0 && check_phil_is_full(all) == 1))

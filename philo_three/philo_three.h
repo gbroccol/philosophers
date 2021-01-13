@@ -6,12 +6,9 @@
 /*   By: gbroccol <gbroccol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 13:49:07 by gbroccol          #+#    #+#             */
-/*   Updated: 2021/01/11 16:02:58 by gbroccol         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:21:00 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// malloc - table all phil (5 + 1)
-
 
 #ifndef PHILO_THREE_H
 # define PHILO_THREE_H
